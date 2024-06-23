@@ -11,3 +11,19 @@ camera.position.z = 5;
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('app').appendChild(renderer.domElement);
+
+// +-- Element --+
+// Create a geometry of a cube
+const geometry = new THREE.BoxGeometry();
+const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+// Create a point light
+const pointLight = new THREE.PointLight(0xffffff);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
+
+// Create an ambient light
+const ambientLight = new THREE.AmbientLight(0x404040);
+scene.add(ambientLight);
