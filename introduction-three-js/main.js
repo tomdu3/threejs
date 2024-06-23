@@ -27,3 +27,19 @@ scene.add(pointLight);
 // Create an ambient light
 const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
+
+// +-- Animation --+
+// Animation function
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Rotate the cube
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+
+  // Render the scene with the camera
+  renderer.render(scene, camera);
+}
+
+// Start the animation
+animate();
