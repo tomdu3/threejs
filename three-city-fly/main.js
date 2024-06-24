@@ -26,7 +26,7 @@ camera.position.z = 5;
 
 // Render the panoramic image back to the screen
 var loader = new THREE.TextureLoader();
-loader.load('image.jpg', function (texture) {
+loader.load('image.jpeg', function (texture) {
   var sphereGeometry = new THREE.SphereGeometry(500, 60, 40)
   var sphereMaterial = new THREE.MeshBasicMaterial({
     map: texture,
@@ -37,3 +37,63 @@ loader.load('image.jpg', function (texture) {
   scene.add(mesh);
   mesh.position.set(0, 0, 0)
 })
+
+// Handle keyboard input
+var keyboard = {};
+
+function keyDown(event) {
+  keyboard[event.code] = true;
+}
+
+function keyUp(event) {
+  keyboard[event.code] = false;
+}
+
+document.addEventListener('keydown', keyDown);
+document.addEventListener('keyup', keyUp);
+
+// Update the camera position based on keyboard input
+function updateCameraPosition() {
+  if (keyboard['KeyW']) {
+    // move forward
+    camera.position.z = new THREE.Vector3(0, 0, -0.1).applyMatrix4(camera.matrixWorld).z;
+  }
+  if (keyboard['KeyS']) {
+    // move backward
+    camera.position.z = new THREE.Vector3(0, 0, 0.1).applyMatrix4(camera.matrixWorld).z;
+  }
+  if (keyboard['KeyA']) {
+    // move left relative to where we're looking
+    var vector = new THREE.Vector3(-0.1, 0, 0).applyMatrix4(camera.matrixWorld);
+    vector.sub(camera.position);
+    camera.position.add(vector);
+  }
+  if (keyboard['KeyD']) {
+    // move right relative to where we're looking
+    var vector = new THREE.Vector3(0.1, 0, 0).applyMatrix4(camera.matrixWorld);
+    vector.sub(camera.position);
+    camera.position.add(vector);
+
+  }
+  if (keyboard['KeyQ']) {
+    camera.position.y += 0.1;
+  }
+  if (keyboard['KeyE']) {
+    camera.position.y -= 0.1;
+  }
+  if (keyboard['ArrowLeft']) {
+    camera.rotation.y += 0.01;
+  }
+  if (keyboard['ArrowRight']) {
+    camera.rotation.y -= 0.01;
+  }
+}
+
+// Render loop
+function animate() {
+  requestAnimationFrame(animate);
+  updateCameraPosition();
+  renderer.render(scene, camera);
+}
+
+animate();
