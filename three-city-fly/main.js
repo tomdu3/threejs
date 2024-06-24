@@ -18,9 +18,22 @@ pointLight.position.set(5, 5, 5);
 scene.add(pointLight);
 
 // Create an ambient light
-const ambientLight = new THREE.AmbientLight(0x404040);
+const ambientLight = new THREE.AmbientLight(0x404040);  // dark grey
 scene.add(ambientLight);
 
 // Set initial camera position
 camera.position.z = 5;
 
+// Render the panoramic image back to the screen
+var loader = new THREE.TextureLoader();
+loader.load('image.jpg', function (texture) {
+  var sphereGeometry = new THREE.SphereGeometry(500, 60, 40)
+  var sphereMaterial = new THREE.MeshBasicMaterial({
+    map: texture,
+    side: THREE.DoubleSide
+  })
+  sphereGeometry.scale(-1, 1, 1);
+  var mesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  scene.add(mesh);
+  mesh.position.set(0, 0, 0)
+})
