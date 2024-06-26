@@ -55,3 +55,40 @@ scene.add(pointLight);
 // Creating an ambient light
 const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
+
+// Scroll Event
+document.body.onscroll = scrollHandler;
+
+// Move the camera based on the scroll position
+function scrollHandler() {
+    // Move the camera based on the scroll position
+    const t = document.body.getBoundingClientRect().top;
+    cube.rotation.x += 0.05;
+    cube.rotation.y += 0.075;
+    cube.rotation.z += 0.05;
+
+    // Move the camera based on the scroll position
+    camera.position.z = t * -0.01;
+    camera.position.x = t * -0.0002;
+    camera.position.y = t * -0.0002;
+}
+
+// Animation function
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the cube
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    // Rotate the torus
+    torus.rotation.x += 0.005;
+    torus.rotation.y += 0.0075;
+
+
+    // Render the scene with the camera
+    renderer.render(scene, camera);
+}
+
+// Start the animation
+animate();
