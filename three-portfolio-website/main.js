@@ -17,3 +17,41 @@ document.getElementById('app').appendChild(renderer.domElement);
 // Set the background colour of the scene
 renderer.setClearColor('#1d1135');
 
+// Creating a geometry (a cube in this case)
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+// Adding a torus below the cube
+const geometryTorus = new THREE.TorusGeometry(10, 3, 16, 100);
+const materialTorus = new THREE.MeshBasicMaterial({ color: 0xff6347 });
+const torus = new THREE.Mesh(geometryTorus, materialTorus);
+scene.add(torus);
+
+const stars = new THREE.Group();
+// Adding stars to the scene
+const addStar = () => {
+    const geometry = new THREE.SphereGeometry(0.25);
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const star = new THREE.Mesh(geometry, material);
+
+    // Randomly position the star
+    const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
+    star.position.set(x, y, z);
+    scene.add(star);
+    stars.add(star);
+}
+
+// Adding 1000 stars to the scene
+Array(1000).fill().forEach(addStar);
+scene.add(stars);
+
+// Creating a point light
+const pointLight = new THREE.PointLight(0xffffff);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
+
+// Creating an ambient light
+const ambientLight = new THREE.AmbientLight(0x404040);
+scene.add(ambientLight);
